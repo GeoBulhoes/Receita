@@ -16,7 +16,7 @@ class Recipe(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField()
-    ingredients = models.TextField()  # Lista de ingredientes como texto
+    ingredients = models.TextField(null=False, blank=False)  # Lista de ingredientes como texto
     preparation = models.TextField()  # Modo de preparo
     preparation_time = models.PositiveIntegerField()  # Tempo em minutos
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)  # Relacionamento com Category
@@ -27,7 +27,7 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
     
-    class Rating(models.Model):
+class Rating(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ratings')  # Relacionamento com Recipe
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Relacionamento com User
     score = models.PositiveSmallIntegerField(choices=[(i, str(i)) for i in range(1, 6)])  # Nota de 1 a 5
